@@ -37,6 +37,23 @@ const Zone = (props) => {
         props.zone ? props.zone.description : ''
     )
     const [path, setPath] = useState(props.zone ? transformCoordinates(props.zone.location.coordinates) : [])
+
+    const onCompleted = data => {
+        if (!props.zone) clearFields()
+        const message = props.zone
+            ? 'Zones updated successfully'
+            : 'Zone added successfully'
+        setErrors('')
+        setSuccess(message)
+        setTimeout(hideAlert, 5000)
+    }
+
+    const onError = ({ graphQLErrors, networkError }) => {
+        setErrors(networkError.result.errors[0].message)
+        setSuccess('')
+        setTimeout(hideAlert, 5000)
+    }
+
     const [mutate, { loading }] = useMutation(mutation, {
         onCompleted,
         onError,
@@ -80,38 +97,12 @@ const Zone = (props) => {
         }
     }, [setPath]);
 
-    // Bind refs to current Polygon and listeners
-    const onLoadPolygon = useCallback(
-        polygon => {
-            polygonRef.current = polygon;
-            const path = polygon.getPath();
-            listenersRef.current.push(
-                path.addListener("set_at", onEdit),
-                path.addListener("insert_at", onEdit),
-                path.addListener("remove_at", onEdit)
-            );
-        },
-        [onEdit]
-    );
 
     // Clean up refs
     const onUnmount = useCallback(() => {
         listenersRef.current.forEach(lis => lis.remove());
         polygonRef.current = null;
     }, []);
-
-    const onSave = () => {
-        var paths = polygonRef.current.state.polygon.getPaths()
-        if (paths.i.length === 0) return
-        const polygonBounds = paths.i[0].i
-        var bounds = []
-        for (var i = 0; i < polygonBounds.length; i++) {
-            var point = [polygonBounds[i].lng(), polygonBounds[i].lat()]
-            bounds.push(point)
-        }
-        bounds.push(bounds[0])
-        return [bounds]
-    }
 
     const onSubmitValidaiton = () => {
         const titleErrors = !validateFunc({ title: title }, 'title')
@@ -137,21 +128,8 @@ const Zone = (props) => {
         setDescriptionError(null)
         setPath([])
     }
-    const onCompleted = data => {
-        if (!props.zone) clearFields()
-        const message = props.zone
-            ? 'Zones updated successfully'
-            : 'Zone added successfully'
-        setErrors('')
-        setSuccess(message)
-        setTimeout(hideAlert, 5000)
-    }
 
-    const onError = ({ graphQLErrors, networkError }) => {
-        setErrors(networkError.result.errors[0].message)
-        setSuccess('')
-        setTimeout(hideAlert, 5000)
-    }
+
     const hideAlert = () => {
         setErrors('')
         setSuccess('')
@@ -261,9 +239,7 @@ const Zone = (props) => {
                                             editable
                                             paths={path}
                                             onMouseUp={onEdit}
-                                            // Event used when dragging the whole Polygon
                                             onDragEnd={onEdit}
-                                            // onLoad={onLoadPolygon}
                                             onUnmount={onUnmount}
                                         />
                                     </GoogleMap>
@@ -278,10 +254,6 @@ const Zone = (props) => {
                                             onClick={async e => {
                                                 e.preventDefault()
                                                 if (onSubmitValidaiton()) {
-                                                    // const coordinates = onSave()
-                                                    // const t = transformPolygon(path)
-                                                    // setPath(t)
-                                                    // console.log(coordinates)
                                                     mutate({
                                                         variables: {
                                                             zone: {

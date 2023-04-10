@@ -111,7 +111,7 @@ function AdDetails(props) {
                     }}
                     style={{ marginBottom: '1rem' }}>
                     Show/Hide
-                </Button>
+                  </Button>
                 </Col>
               </Row>
               <Collapse isOpen={customerCollapse}>
@@ -188,7 +188,7 @@ function AdDetails(props) {
                     }}
                     style={{ marginBottom: '1rem' }}>
                     Show/Hide
-                </Button>
+                  </Button>
                 </Col>
               </Row>
               <Collapse isOpen={adAction}>
@@ -228,22 +228,22 @@ function AdDetails(props) {
                               />
                             </Button>
                           ) : (
-                              <Button
-                                color="primary"
-                                disabled={data.status === selectedStatus}
-                                onClick={() => {
-                                  if (validateStatus()) {
-                                    updateItemStatus({
-                                      variables: {
-                                        id: data._id,
-                                        status: selectedStatus
-                                      }
-                                    })
-                                  }
-                                }}>
-                                {'Assign'}
-                              </Button>
-                            )}
+                            <Button
+                              color="primary"
+                              disabled={data.status === selectedStatus}
+                              onClick={() => {
+                                if (validateStatus()) {
+                                  updateItemStatus({
+                                    variables: {
+                                      id: data._id,
+                                      status: selectedStatus
+                                    }
+                                  })
+                                }
+                              }}>
+                              {'Assign'}
+                            </Button>
+                          )}
                         </InputGroupAddon>
                       </InputGroup>
                     </FormGroup>
@@ -279,7 +279,7 @@ function AdDetails(props) {
                     }}
                     style={{ marginBottom: '1rem' }}>
                     Show/Hide
-                </Button>
+                  </Button>
                 </Col>
               </Row>
               <Row className="align-items-center">
@@ -338,7 +338,7 @@ function AdDetails(props) {
                           {data && data.images.map((image, index) =>
                             <Col key={index} lg='6'>
                               <div className="thumbnail mt-2">
-                                <img src={image} width='100%' className='img-thumbnail' />
+                                <img alt='thumbnail' src={image} width='100%' className='img-thumbnail' />
                               </div>
                             </Col>)}
                         </Row>

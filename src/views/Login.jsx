@@ -14,7 +14,7 @@ import {
   Col
 } from 'reactstrap'
 
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { validateFunc } from '../constraints/constraints'
 
 const Login = props => {

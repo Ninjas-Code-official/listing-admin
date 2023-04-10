@@ -47,7 +47,7 @@ const AdsData = props => {
       center: true,
       grow: 0,
       cell: row => (
-        <>{<img src={row.images[0]} className="img-fluid img-thumbnail" />}</>
+        <>{<img alt='thumbnail' src={row.images[0]} className="img-fluid img-thumbnail" />}</>
       )
     },
     {
@@ -55,9 +55,8 @@ const AdsData = props => {
       sortable: true,
       selector: 'user.name',
       cell: row => (
-        <>{`${row.user.name}\n${row.user.email}\n${
-          row.user.showPhone ? row.user.phone : ''
-        }`}</>
+        <>{`${row.user.name}\n${row.user.email}\n${row.user.showPhone ? row.user.phone : ''
+          }`}</>
       )
     },
     {

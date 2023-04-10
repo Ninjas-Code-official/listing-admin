@@ -30,10 +30,6 @@ const GET_CATEGORIES = gql`
   ${categories}
 `
 
-const loading = false
-const errorMessage = false
-const successMessage = false
-
 function Category(props) {
   const [title, titleSetter] = useState(
     props.category ? props.category.title : ''

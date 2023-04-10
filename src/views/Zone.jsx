@@ -30,10 +30,6 @@ function Zone(props) {
 
   const { data, loading, error } = useQuery(GET_ZONES)
 
-  const onCompleted = data => { }
-  const onError = error => {
-    console.log(error)
-  }
 
   const customSort = (rows, field, direction) => {
     const handleField = row => {
@@ -90,17 +86,17 @@ function Zone(props) {
                 <span>
                   {'Error'}! ${error.message}
                 </span>}
-                  <DataTable
-                    title={'Zones'}
-                    columns={columns}
-                    data={data?data.zones:[]}
-                    pagination
-                    progressPending={loading}
-                    progressComponent={<CustomLoader />}
-                    onSort={handleSort}
-                    sortFunction={customSort}
-                    defaultSortField="title"
-                  />
+              <DataTable
+                title={'Zones'}
+                columns={columns}
+                data={data ? data.zones : []}
+                pagination
+                progressPending={loading}
+                progressComponent={<CustomLoader />}
+                onSort={handleSort}
+                sortFunction={customSort}
+                defaultSortField="title"
+              />
             </Card>
           </div>
         </Row>
